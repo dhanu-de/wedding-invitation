@@ -1,0 +1,337 @@
+/* =========================================================================
+   THE JOURNEY TO THE SAPTAPADI — Design System
+   Royal Kumkum (default) + 3 alternate theme presets, all via CSS variables.
+   ========================================================================= */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------- THEME PRESETS (RGB triplets so Tailwind opacity works) -------- */
+:root,
+[data-theme='royal-kumkum'] {
+  --c-deep: 26 11 14; /* temple-night  #1A0B0E */
+  --c-wine: 91 15 27; /* deep maroon   #5B0F1B */
+  --c-accent: 179 32 42; /* kumkum red    #B3202A */
+  --c-gold: 201 162 75; /* antique gold  #C9A24B */
+  --c-marigold: 242 169 0; /* marigold      #F2A900 */
+  --c-ivory: 251 243 228; /* ivory         #FBF3E4 */
+  --theme-name: 'Royal Kumkum';
+}
+
+[data-theme='emerald-temple'] {
+  --c-deep: 6 19 14;
+  --c-wine: 14 59 46;
+  --c-accent: 27 122 90;
+  --c-gold: 201 162 75;
+  --c-marigold: 233 180 76;
+  --c-ivory: 246 241 228;
+  --theme-name: 'Emerald Temple';
+}
+
+[data-theme='saffron-sunrise'] {
+  --c-deep: 42 18 6;
+  --c-wine: 122 42 11;
+  --c-accent: 226 115 27;
+  --c-gold: 217 164 65;
+  --c-marigold: 246 185 59;
+  --c-ivory: 255 246 232;
+  --theme-name: 'Saffron Sunrise';
+}
+
+[data-theme='peacock-royale'] {
+  --c-deep: 6 26 34;
+  --c-wine: 11 58 74;
+  --c-accent: 14 124 134;
+  --c-gold: 212 175 55;
+  --c-marigold: 224 164 88;
+  --c-ivory: 242 247 247;
+  --theme-name: 'Peacock Royale';
+}
+
+/* ------------------------------- BASE ------------------------------------ */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-body text-[17px] leading-relaxed antialiased;
+    background-color: rgb(var(--c-deep));
+    color: rgb(var(--c-ivory));
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display;
+    line-height: 1.08;
+  }
+
+  ::selection {
+    background: rgb(var(--c-marigold) / 0.35);
+    color: rgb(var(--c-ivory));
+  }
+
+  /* Keyboard focus, AA-friendly */
+  :focus-visible {
+    outline: 2px solid rgb(var(--c-marigold));
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: rgb(var(--c-deep));
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(rgb(var(--c-gold) / 0.6), rgb(var(--c-wine)));
+    border-radius: 99px;
+  }
+}
+
+/* ---------------------------- UTILITIES ---------------------------------- */
+@layer utilities {
+  .font-kn {
+    font-family: 'Noto Serif Kannada', 'Noto Serif Devanagari', serif;
+    line-height: 1.5;
+  }
+  .font-deva {
+    font-family: 'Noto Serif Devanagari', serif;
+  }
+
+  /* Gold foil text — animated shimmer */
+  .text-foil {
+    background-image: linear-gradient(
+      100deg,
+      rgb(var(--c-gold)) 0%,
+      #fff4cf 18%,
+      rgb(var(--c-marigold)) 38%,
+      #ffe9a8 52%,
+      rgb(var(--c-gold)) 70%,
+      #fff4cf 88%,
+      rgb(var(--c-gold)) 100%
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shimmer 7s linear infinite;
+  }
+
+  .bg-foil {
+    background-image: linear-gradient(
+      100deg,
+      rgb(var(--c-gold)) 0%,
+      #f4dc9a 22%,
+      rgb(var(--c-marigold)) 45%,
+      #f7e6b4 62%,
+      rgb(var(--c-gold)) 85%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 9s linear infinite;
+  }
+
+  /* Layered paper / silk surface with subtle fibre noise */
+  .bg-paper {
+    background-color: rgb(var(--c-ivory));
+    background-image:
+      radial-gradient(120% 80% at 15% 0%, rgb(var(--c-gold) / 0.1), transparent 60%),
+      radial-gradient(90% 70% at 100% 100%, rgb(var(--c-accent) / 0.07), transparent 55%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  }
+
+  /* Dark temple-night surface with silk sheen */
+  .bg-night {
+    background-color: rgb(var(--c-deep));
+    background-image:
+      radial-gradient(120% 90% at 50% -10%, rgb(var(--c-wine) / 0.85), transparent 62%),
+      radial-gradient(70% 55% at 12% 100%, rgb(var(--c-marigold) / 0.12), transparent 60%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+  }
+
+  /* Kalamkari-ish weave */
+  .bg-weave {
+    background-image:
+      repeating-linear-gradient(45deg, rgb(var(--c-gold) / 0.06) 0 1px, transparent 1px 9px),
+      repeating-linear-gradient(-45deg, rgb(var(--c-gold) / 0.05) 0 1px, transparent 1px 9px);
+  }
+
+  .text-shadow-gold {
+    text-shadow: 0 1px 0 rgb(var(--c-gold) / 0.25), 0 14px 40px rgb(0 0 0 / 0.5);
+  }
+
+  .drop-gold {
+    filter: drop-shadow(0 2px 10px rgb(var(--c-marigold) / 0.35));
+  }
+
+  /* Ornate frame: hairline gold border + 4 corner flourishes */
+  .ornate-frame {
+    position: relative;
+    border: 1px solid rgb(var(--c-gold) / 0.55);
+  }
+  .ornate-frame::before,
+  .ornate-frame::after {
+    content: '';
+    position: absolute;
+    width: 34px;
+    height: 34px;
+    pointer-events: none;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'%3E%3Cg fill='none' stroke='%23C9A24B' stroke-width='1.4' stroke-linecap='round'%3E%3Cpath d='M3 57C3 29 29 3 57 3'/%3E%3Cpath d='M10 57C10 33 33 10 57 10'/%3E%3Ccircle cx='11' cy='11' r='2.6'/%3E%3C/g%3E%3C/svg%3E");
+  }
+  .ornate-frame::before {
+    top: 6px;
+    left: 6px;
+  }
+  .ornate-frame::after {
+    bottom: 6px;
+    right: 6px;
+    transform: rotate(180deg);
+  }
+
+  /* Jharokha / cusped arch photo mask */
+  .arch-mask {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 140' preserveAspectRatio='none'%3E%3Cpath d='M0 140 L0 58 Q0 12 50 2 Q100 12 100 58 L100 140 Z' fill='%23fff'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 140' preserveAspectRatio='none'%3E%3Cpath d='M0 140 L0 58 Q0 12 50 2 Q100 12 100 58 L100 140 Z' fill='%23fff'/%3E%3C/svg%3E");
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+  }
+
+  .arch-mask-round {
+    border-radius: 50% 50% 12px 12px / 42% 42% 12px 12px;
+    overflow: hidden;
+  }
+
+  /* Chapter eyebrow label */
+  .eyebrow {
+    @apply font-body uppercase tracking-[0.42em] text-[11px] font-medium;
+  }
+
+  .hairline {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgb(var(--c-gold) / 0.75),
+      transparent
+    );
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Snap carousel for mobile event cards */
+  .snap-x-mandatory {
+    scroll-snap-type: x mandatory;
+  }
+  .snap-center-item {
+    scroll-snap-align: center;
+  }
+}
+
+/* ---------------------------- COMPONENTS --------------------------------- */
+@layer components {
+  .btn-gold {
+    @apply relative inline-flex items-center justify-center gap-2 rounded-full px-6 py-3
+           font-body text-sm font-medium tracking-wide transition-transform duration-300
+           active:scale-[0.97];
+    color: rgb(var(--c-deep));
+    background-image: linear-gradient(
+      120deg,
+      rgb(var(--c-gold)),
+      #f3dda2,
+      rgb(var(--c-marigold)),
+      rgb(var(--c-gold))
+    );
+    background-size: 220% 100%;
+    animation: shimmer 8s linear infinite;
+    box-shadow: 0 6px 26px rgb(var(--c-gold) / 0.32);
+  }
+  .btn-gold:hover {
+    transform: translateY(-2px);
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border px-6 py-3
+           font-body text-sm tracking-wide transition-colors duration-300;
+    border-color: rgb(var(--c-gold) / 0.55);
+    color: rgb(var(--c-gold));
+  }
+  .btn-ghost:hover {
+    background: rgb(var(--c-gold) / 0.12);
+  }
+
+  .panel {
+    @apply relative overflow-hidden rounded-2xl p-6;
+    background-color: rgb(var(--c-ivory));
+    color: rgb(var(--c-deep));
+    border: 1px solid rgb(var(--c-gold) / 0.5);
+    box-shadow: 0 24px 60px -30px rgb(0 0 0 / 0.7), inset 0 0 0 6px rgb(var(--c-gold) / 0.08);
+  }
+
+  .field {
+    @apply w-full rounded-xl border px-4 py-3 font-body text-[15px] outline-none transition-colors;
+    color: rgb(var(--c-deep));
+    background: rgb(255 255 255 / 0.72);
+    border-color: rgb(var(--c-gold) / 0.55);
+  }
+  .field::placeholder {
+    color: rgb(var(--c-wine) / 0.45);
+  }
+  .field:focus {
+    border-color: rgb(var(--c-accent));
+    background: #fff;
+  }
+
+  .label {
+    @apply mb-1.5 block font-body text-[12px] font-medium uppercase tracking-[0.18em];
+    color: rgb(var(--c-wine) / 0.85);
+  }
+
+  .divider-marigold {
+    height: 18px;
+    background-repeat: repeat-x;
+    background-size: auto 18px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='18' viewBox='0 0 34 18'%3E%3Cg fill='none' stroke='%23C9A24B' stroke-width='1.2'%3E%3Ccircle cx='5' cy='9' r='3.4'/%3E%3Ccircle cx='17' cy='9' r='2.2'/%3E%3Ccircle cx='29' cy='9' r='3.4'/%3E%3Cpath d='M0 9h1M9 9h5M20 9h6M33 9h1'/%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.85;
+  }
+}
+
+/* ------------------------------ CURSOR ----------------------------------- */
+@media (hover: hover) and (pointer: fine) {
+  .diya-cursor,
+  .diya-cursor * {
+    cursor: none !important;
+  }
+}
+
+/* --------------------- REDUCED MOTION SAFETY NET ------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .text-foil,
+  .bg-foil,
+  .btn-gold {
+    animation: none !important;
+  }
+}
