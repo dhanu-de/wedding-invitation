@@ -31,7 +31,7 @@ const IconTranslate = () => (
  * Music is never forced — it only appears once the track actually loads.
  */
 export function TopBar() {
-  const { t, theme, setTheme, lang, setLang, musicOn, musicReady, toggleMusic, config } = useApp()
+  const { t, theme, setTheme, lang, setLang, musicOn, musicReady, toggleMusic, gateOpen, config } = useApp()
   const [openTheme, setOpenTheme] = useState(false)
   const wrapRef = useRef(null)
 
@@ -115,8 +115,8 @@ export function TopBar() {
           )}
         </div>
 
-        {/* Music — only rendered once the track has loaded */}
-        {musicReady && (
+        {/* Music — available once the track has loaded (or right after entering) */}
+        {(musicReady || gateOpen) && (
           <button
             className={btn}
             onClick={toggleMusic}

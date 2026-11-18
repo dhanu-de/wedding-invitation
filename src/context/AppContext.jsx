@@ -150,18 +150,21 @@ export function AppProvider({ children }) {
   const openGate = useCallback(() => {
     setGateOpen(true)
     const a = audioRef.current
-    if (a && !musicOn) {
-      a.volume = 0
-      a.play()
-        .then(() => {
-          rampVolume(a, config.music.volume, 2000)
-          setMusicOn(true)
-          write('saptapadi:music', 'on')
-        })
-        .catch(() => {
-          /* autoplay was blocked — guest can tap the music button instead */
-        })
-    }
+    if (!a || musicOn) return
+    a.volume = 0
+    // Fade starts right away (not inside play()'s promise) so the melody is
+    // already audible the instant the track begins — even if it had to buffer.
+    rampVolume(a, config.music.volume, 1800)
+    a.play()
+      .then(() => {
+        setMusicOn(true)
+        write('saptapadi:music', 'on')
+      })
+      .catch((err) => {
+        // Autoplay was blocked — the guest can tap the music button instead.
+        console.warn('[music] could not start on gate open:', err?.message || err)
+        setMusicOn(false)
+      })
   }, [musicOn])
 
   /* --- i18n helpers --- */
@@ -235,7 +238,7 @@ export function AppProvider({ children }) {
         ref={audioRef}
         src={config.music.src}
         loop
-        preload="metadata"
+        preload="auto"
         playsInline
         aria-hidden="true"
       />
